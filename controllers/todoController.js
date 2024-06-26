@@ -52,17 +52,17 @@ const deleteTodo = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const todo = await Todo.findById(id);
-    if (!todo) {
+    const result = await Todo.deleteOne({ _id: id });
+    if (result.deletedCount === 0) {
       return res.status(404).json({ message: 'Todo not found' });
     }
 
-    await todo.remove();
     res.json({ message: 'Todo deleted' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 module.exports = {
   getTodos,
